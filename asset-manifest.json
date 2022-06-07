@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/tulaa-task/static/css/main.b7f199a1.css",
+    "main.js": "/tulaa-task/static/js/main.8c701f04.js",
+    "index.html": "/tulaa-task/index.html",
+    "main.b7f199a1.css.map": "/tulaa-task/static/css/main.b7f199a1.css.map",
+    "main.8c701f04.js.map": "/tulaa-task/static/js/main.8c701f04.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.b7f199a1.css",
+    "static/js/main.8c701f04.js"
+  ]
+}
