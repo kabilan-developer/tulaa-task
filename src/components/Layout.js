@@ -6,135 +6,148 @@ import CreateObjective from "./CreateObjective";
 
 function Layout() {
   //for modal
-  const [showObjective, setShowObjective] = useState(false);
-  const [showKeys, setShowKeys] = useState(false);
+  const [showObjectiveModal, setShowObjectiveModal]     = useState(false);
+  const [showKeyResultModal, setShowKeyResultModal]     = useState(false);
 
-  const [objective, setObjective] = useState("");
-  const [period, setPeriod] = useState("");
-  const [title, setTitle] = useState("");
-  const [date, setDate] = useState("");
+  //input state for creating objective
+  const [objectiveTitleInput, setObjectiveTitleInput]   = useState("");
+  const [objectivePeriodInput, setObjectivePeriodInput] = useState("");
 
-  const [id, setId] = useState("");
-  const [heading, setHeading] = useState("");
+  //input state for creating key results
+  const [keyTitleInput, setKeyTitleInput]               = useState("");
+  const [keyPeriodInput, setKeyPeriodInput]             = useState("");
 
-  const [data, setData] = useState([
+  //capturing index & heading
+  const [clickedId, setClickedId]                       = useState("");
+  const [modalHeading, setModalHeading]                 = useState("");
+
+  //initial state 
+  const [data, setData]                                 = useState([
     {
-      id: 1,
-      objective: "Become insanely rich",
-      period: "Q1-2022, Q2-2022",
-      keyData: [
-        {
-          title: "Spend less money",
-          date: "may 31,2022 4:14pm",
-        },
-        {
-          title: "Become insanely rish",
-          date: "Jun 2, 2022 3:16pm",
-        },
-        {
-          title: "Become insanely rish",
-          date: "Jun 2, 2022 3:16pm",
-        },
-        {
-          title: "Become insanely rish",
-          date: "Jun 3, 2022 5:00pm",
-        },
-      ],
+      id                   : 1,
+      objectiveTitle       : "Become insanely rich",
+      objectivePeriod      : "Q1-2022, Q2-2022",
+      keyResult            : [
+          {
+            keyTitle       : "Spend less money",
+            keyPeriod      : "may 31,2022 4:14pm",
+          },
+          {
+            keyTitle       : "Become insanely rish",
+            keyPeriod      : "Jun 2, 2022 3:16pm",
+          },
+          {
+            keyTitle       : "Become insanely rish",
+            keyPeriod      : "Jun 2, 2022 3:16pm",
+          },
+          {
+            keyTitle       : "Become insanely rish",
+            keyPeriod      : "Jun 3, 2022 5:00pm",
+          },
+        ],
     },
     {
-      id: 2,
-      objective: "Become very fast in 100m",
-      period: "Q3-2022",
-      keyData: [
-        {
-          title: "Train hard",
-          date: "May 31, 2022 4:14pm",
-        },
-      ],
+      id                   : 2,
+      objectiveTitle       : "Become very fast in 100m",
+      objectivePeriod      : "Q3-2022",
+      keyResult            : [
+          {
+            keyTitle       : "Train hard",
+            keyPeriod      : "May 31, 2022 4:14pm",
+          },
+        ],
     },
     {
-      id: 3,
-      objective: "A new objective",
-      period: "Q2-2022",
-      keyData: [],
+      id                   : 3,
+      objectiveTitle       : "A new objective",
+      objectivePeriod      : "Q2-2022",
+      keyResult            : [],
     },
   ]);
 
-  const onFormSubmit = (e) => {
+  //function for creating new objective
+  const createNewObjective = (e) => {
     e.preventDefault();
-    let obj = {
-      id: data.length + 1,
-      objective,
-      period,
-      keyData: [],
+    let newObjData = {
+      id               : data.length + 1,
+      objectiveTitle   : objectiveTitleInput,                
+      objectivePeriod  : objectivePeriodInput,                   
+      keyResult        : [],
     };
-    data.push(obj);
-    setObjective("");
-    setPeriod("");
-    setShowObjective(false);
+    data.push(newObjData);
+    setObjectiveTitleInput("");
+    setObjectivePeriodInput("");
+    setShowObjectiveModal(false);    //closing the modal
   };
 
-  const onKeyResultClick = (e) => {
+   //function for creating new key result
+  const createNewKeyResult = (e) => {
     e.preventDefault();
-    let obj = {
-      title,
-      date,
+    let newKeyData = {
+      keyTitle  : keyTitleInput,                    
+      keyPeriod : keyPeriodInput,                     
     };
-    data[id].keyData.push(obj);
-    setTitle("");
-    setDate("");
-    setShowKeys(false);
+    data[clickedId].keyResult.push(newKeyData);
+    setKeyTitleInput("");
+    setKeyPeriodInput("");
+    setShowKeyResultModal(false);         //closing the modal
   };
 
   return (
     <Container className="px-5">
+
       <CreateObjective
-        setShowObjective={setShowObjective}
-        showObjective={showObjective}
-        onFormSubmit={onFormSubmit}
-        objective={objective}
-        setObjective={setObjective}
-        period={period}
-        setPeriod={setPeriod}
+        showObjectiveModal       = {showObjectiveModal}
+        setShowObjectiveModal    = {setShowObjectiveModal}
+        objectiveTitleInput      = {objectiveTitleInput}
+        setObjectiveTitleInput   = {setObjectiveTitleInput}
+        objectivePeriodInput     = {objectivePeriodInput}
+        setObjectivePeriodInput  = {setObjectivePeriodInput}
+        createNewObjective       = {createNewObjective}
       />
+
       <br />
+
       {data.map((item, index) => {
         return (
           <Container key={index}>
             <Stack direction="horizontal" gap={3}>
-              <h5 className="layout-heading">{item.objective}</h5>
-              <h6 className="ms-auto">{item.period}</h6>
+              <h5 className="layout-modalHeading">{item.objectiveTitle}</h5>
+              <h6 className="ms-auto">{item.objectivePeriod}</h6>
             </Stack>
             <div class="table-wrapper-scroll-y my-custom-scrollbar">
               <table class="table mb-0 ">
                 <tbody>
-                  {item.keyData?.map((ele) => (
+                  {item.keyResult?.map((key) => (
                     <tr>
-                      <td style={{ width: "50%" }}>{ele.title}</td>
-                      <td style={{ width: "50%" }}>{ele.date}</td>
+                      <td style={{ width: "50%" }}>{key.keyTitle}</td>
+                      <td style={{ width: "50%" }}>{key.keyPeriod}</td>
                     </tr>
                   ))}
                 </tbody>
               </table>
             </div>
+
             <CreateKeys
-              date={date}
-              setDate={setDate}
-              setId={setId}
-              index={index}
-              showKeys={showKeys}
-              setShowKeys={setShowKeys}
-              item={item}
-              title={title}
-              setTitle={setTitle}
-              onKeyResultClick={onKeyResultClick}
-              setHeading={setHeading}
-              heading={heading}
+              showKeyResultModal       = {showKeyResultModal}
+              setShowKeyResultModal    = {setShowKeyResultModal}
+              keyTitleInput            = {keyTitleInput}
+              setKeyTitleInput         = {setKeyTitleInput}
+              keyPeriodInput           = {keyPeriodInput}
+              setKeyPeriodInput        = {setKeyPeriodInput}
+              createNewKeyResult       = {createNewKeyResult}
+              setClickedId             = {setClickedId}
+              setModalHeading          = {setModalHeading}
+              modalHeading             = {modalHeading}
+              index                    = {index}
+              item                     = {item}
             />
+
             <hr />
           </Container>
         );
       })}
+
     </Container>
   );
 }

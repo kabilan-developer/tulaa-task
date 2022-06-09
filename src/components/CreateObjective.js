@@ -4,13 +4,13 @@ import "../App.css";
 
 function CreateObjective(props) {
   const {
-    showObjective,
-    setShowObjective,
-    objective,
-    setObjective,
-    period,
-    setPeriod,
-    onFormSubmit,
+    showObjectiveModal,
+    setShowObjectiveModal,
+    objectiveTitleInput,
+    setObjectiveTitleInput,
+    objectivePeriodInput,
+    setObjectivePeriodInput,
+    createNewObjective,
   } = props;
   return (
     <>
@@ -22,29 +22,30 @@ function CreateObjective(props) {
           variant="info"
           size="sm"
           className="text-light ms-auto"
-          onClick={() => setShowObjective(true)}
+          onClick={() => setShowObjectiveModal(true)}
         >
           + objective
         </Button>
       </Stack>
-      <Modal show={showObjective} onHide={() => setShowObjective(false)}>
+
+      <Modal show={showObjectiveModal} onHide={() => setShowObjectiveModal(false)}>
         <Modal.Body>
-          <Form className="p-4" onSubmit={onFormSubmit}>
+
+          <Form className="p-4" onSubmit={createNewObjective}>
             <Form.Group className="mb-4">
               <Form.Label>Objective</Form.Label>
               <Form.Control
                 type="text"
-                value={objective}
-                onChange={(e) => setObjective(e.target.value)}
+                value={objectiveTitleInput}
+                onChange={(e) => setObjectiveTitleInput(e.target.value)}
               />
             </Form.Group>
-
             <Form.Group className="mb-4">
               <Form.Label>Period</Form.Label>
               <Form.Control
                 type="text"
-                value={period}
-                onChange={(e) => setPeriod(e.target.value)}
+                value={objectivePeriodInput}
+                onChange={(e) => setObjectivePeriodInput(e.target.value)}
               />
             </Form.Group>
             <Button
@@ -56,6 +57,7 @@ function CreateObjective(props) {
               Create Objective
             </Button>
           </Form>
+
         </Modal.Body>
       </Modal>
     </>
